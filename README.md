@@ -5,13 +5,14 @@
 ## Features
 
 - JWT Authentication
-- Role-Based Authorization (ADMIN/USER)
-- Student CRUD APIs
-- Pagination & Search
+- Role-Based Authorization
+- Student CRUD
+- Pagination
+- Search
 - Validation
 - Global Exception Handling
-- Swagger Documentation
-- Docker & Docker Compose
+- Dockerized Deployment
+- Railway Cloud Hosting
 
 ## Tech Stack
 
@@ -28,6 +29,10 @@
 docker compose up --build
 ```
 
-Swagger:
+## Live Demo
 
-`http://localhost:8080/swagger-ui/index.html`
+Backend:
+https://student-management-system-production-7dd5.up.railway.app
+
+Swagger API:
+https://student-management-system-production-7dd5.up.railway.app/swagger-ui/index.html
