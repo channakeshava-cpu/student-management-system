@@ -36,13 +36,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(cors -> {})
+                .cors(cors -> {})   // ✅ This was the typo
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
+                        // Allow CORS preflight requests
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+
+                        // Student APIs
                         .requestMatchers(HttpMethod.GET,
                                 "/api/students",
                                 "/api/students/**")
@@ -60,6 +67,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE,
                                 "/api/students/**")
                         .hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
 
@@ -67,7 +75,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
