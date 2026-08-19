@@ -16,7 +16,7 @@ function Dashboard() {
             const token = localStorage.getItem("token");
 
             const response = await axios.get(
-                "https://student-management-system-production-7dd5.up.railway.app/api/students?page=0&size=20",
+                `${import.meta.env.VITE_API_BASE_URL}/api/students?page=0&size=20`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -32,10 +32,10 @@ function Dashboard() {
     };
 
     return (
-        <div>
+        <div style={{ padding: "20px" }}>
             <h2>Student Dashboard</h2>
 
-            <table border="1" cellPadding="10">
+            <table border="1" cellPadding="10" style={{ borderCollapse: "collapse" }}>
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -45,19 +45,14 @@ function Dashboard() {
                 </thead>
 
                 <tbody>
-
                 {students.map(student => (
-
                     <tr key={student.id}>
                         <td>{student.name}</td>
                         <td>{student.department}</td>
                         <td>{student.cgpa}</td>
                     </tr>
-
                 ))}
-
                 </tbody>
-
             </table>
 
         </div>

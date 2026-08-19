@@ -10,7 +10,7 @@ function LoginForm(){
     const handleLogin = async () => {
         try {
             const response = await axios.post(
-                "https://student-management-system-production-7dd5.up.railway.app/api/auth/login",
+                `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
                 {
                     username,
                     password,
