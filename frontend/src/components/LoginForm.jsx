@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-function LoginForm(){
+function LoginForm({ setLoggedIn}){
     const [username,setUsername] = useState("");
     const[password,setPassword] = useState("");
 
@@ -20,8 +20,7 @@ function LoginForm(){
 
             console.log(response.data);
 
-            alert("Login successful!");
-
+           setLoggedIn(true);
         } catch(error){
             alert("Login Failed!");
             console.error(error);

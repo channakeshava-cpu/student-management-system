@@ -31,9 +31,19 @@ function Dashboard() {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+
+        window.location.reload();
+    };
+
     return (
         <div style={{ padding: "20px" }}>
             <h2>Student Dashboard</h2>
+
+            <button onClick={handleLogout}>
+                Logout
+            </button>
 
             <table border="1" cellPadding="10" style={{ borderCollapse: "collapse" }}>
                 <thead>
