@@ -21,7 +21,16 @@ function StudentTable({ students, onEdit, onDelete }) {
 
                 <tr>
                     <td colSpan="6" style={{ textAlign: "center" }}>
-                        No students found
+                        <div style={{
+                            padding:"30px",
+                            textAlign:"center"
+                        }}>
+
+                            📚 No students found.
+
+                            Add your first student.
+
+                        </div>
                     </td>
                 </tr>
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function AddStudentForm({ onStudentAdded }) {
 
@@ -50,15 +51,17 @@ function AddStudentForm({ onStudentAdded }) {
                 cgpa: ""
             });
 
+            toast.success("Student added successfully!");
+
             onStudentAdded();
 
         } catch (error) {
 
             console.error(error);
 
-            alert(
+            toast.error(
                 error.response?.data?.message ||
-                JSON.stringify(error.response?.data)
+                "Failed to add student."
             );
 
         }

@@ -4,14 +4,19 @@ import StatCard from "./StatCard";
 import StudentTable from "./StudentTable";
 import AddStudentForm from "./AddStudentForm";
 import EditStudentModal from "./EditStudentModal";
+import DeleteConfirmModal from "./DeleteConfirmModal";
+import { toast } from "react-toastify";
 
 function Dashboard() {
 
     const [students, setStudents] = useState([]);
     const [selectedStudent, setSelectedStudent] = useState(null);
+    const [studentToDelete, setStudentToDelete] = useState(null);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [departmentFilter, setDepartmentFilter] = useState("ALL");
+    const [sortOption, setSortOption] = useState("NAME_ASC");
 
     useEffect(() => {
         fetchStudents();
@@ -48,13 +53,9 @@ function Dashboard() {
 
     };
 
-    const deleteStudent = async (id) => {
+    const deleteStudent = async () => {
 
-        const confirmDelete = window.confirm(
-            "Delete this student?"
-        );
-
-        if (!confirmDelete) return;
+        if (!studentToDelete) return;
 
         try {
 
@@ -62,27 +63,31 @@ function Dashboard() {
 
             await axios.delete(
 
-                `${import.meta.env.VITE_API_BASE_URL}/api/students/${id}`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/students/${studentToDelete.id}`,
 
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                    headers:{
+                        Authorization:`Bearer ${token}`
                     }
                 }
 
             );
 
+            toast.success("Student deleted.");
+
+            setStudentToDelete(null);
+
             fetchStudents();
 
-        } catch (error) {
+        } catch(error){
 
             console.error(error);
-            alert("Delete failed.");
+
+            toast.error("Delete failed.");
 
         }
 
     };
-
 
     const handleLogout = () => {
 
@@ -102,9 +107,40 @@ function Dashboard() {
         ).toFixed(2)
         : "0.00";
 
-    const filteredStudents = students.filter(student =>
-    student.name.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredStudents = [...students]
+
+        .filter(student =>
+            student.name.toLowerCase().includes(search.toLowerCase())
+        )
+
+        .filter(student =>
+            departmentFilter === "ALL"
+                ? true
+                : student.department === departmentFilter
+        )
+
+        .sort((a, b) => {
+
+            switch (sortOption) {
+
+                case "NAME_ASC":
+                    return a.name.localeCompare(b.name);
+
+                case "NAME_DESC":
+                    return b.name.localeCompare(a.name);
+
+                case "CGPA_DESC":
+                    return b.cgpa - a.cgpa;
+
+                case "DEPARTMENT":
+                    return a.department.localeCompare(b.department);
+
+                default:
+                    return 0;
+
+            }
+
+        });
 
     return (
 
@@ -159,12 +195,45 @@ function Dashboard() {
 
             </div>
 
+            <div className="filter-bar">
+
+                <select
+                    value={departmentFilter}
+                    onChange={(e)=>setDepartmentFilter(e.target.value)}
+                >
+
+                    <option value="ALL">All Departments</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="AIML">AIML</option>
+                    <option value="IT">IT</option>
+                    <option value="MECH">MECH</option>
+
+                </select>
+
+                <select
+                    value={sortOption}
+                    onChange={(e)=>setSortOption(e.target.value)}
+                >
+
+                    <option value="NAME_ASC">Name A-Z</option>
+                    <option value="NAME_DESC">Name Z-A</option>
+                    <option value="CGPA_DESC">CGPA High-Low</option>
+                    <option value="DEPARTMENT">Department</option>
+
+                </select>
+
+            </div>
+
             <AddStudentForm onStudentAdded={fetchStudents} />
 
             <StudentTable
                 students={filteredStudents}
                 onEdit={setSelectedStudent}
-                onDelete={deleteStudent}
+                onDelete={(id)=>{
+                const student=students.find(s=>s.id===id);
+                setStudentToDelete(student);
+            }}
             />
 
             <div className="pagination">
@@ -196,6 +265,18 @@ function Dashboard() {
                     student={selectedStudent}
                     onClose={() => setSelectedStudent(null)}
                     onUpdated={fetchStudents}
+
+                />
+
+            )}
+
+            {studentToDelete && (
+
+                <DeleteConfirmModal
+
+                    studentName={studentToDelete.name}
+                    onConfirm={deleteStudent}
+                    onCancel={()=>setStudentToDelete(null)}
 
                 />
 
