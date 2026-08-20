@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-function LoginForm({ setLoggedIn}){
+function LoginForm({ setLoggedIn,setShowLogin}){
     const [username,setUsername] = useState("");
     const[password,setPassword] = useState("");
 
@@ -52,6 +52,16 @@ function LoginForm({ setLoggedIn}){
             <button onClick={handleLogin}>
                 Login
             </button>
+
+            <p>
+                Don't have an account?{" "}
+                <span
+                    style={{ color: "#2563eb", cursor: "pointer" }}
+                    onClick={() => setShowLogin(false)}
+                >
+                    Sign Up
+                </span>
+            </p>
 
             <p>Username: {username}</p>
             <p>Password:{password}</p>
