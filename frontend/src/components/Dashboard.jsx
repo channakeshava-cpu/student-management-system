@@ -9,10 +9,13 @@ function Dashboard() {
 
     const [students, setStudents] = useState([]);
     const [selectedStudent, setSelectedStudent] = useState(null);
+    const [search, setSearch] = useState("");
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         fetchStudents();
-    }, []);
+    }, [page]);
 
     const fetchStudents = async () => {
 
@@ -21,7 +24,7 @@ function Dashboard() {
             const token = localStorage.getItem("token");
 
             const response = await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/api/students?page=0&size=20`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/students?page=${page}&size=5`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -30,6 +33,7 @@ function Dashboard() {
             );
 
             setStudents(response.data.content);
+            setTotalPages(response.data.totalPages);
 
         } catch (error) {
 
@@ -98,6 +102,10 @@ function Dashboard() {
         ).toFixed(2)
         : "0.00";
 
+    const filteredStudents = students.filter(student =>
+    student.name.toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
 
         <div className="dashboard">
@@ -140,13 +148,46 @@ function Dashboard() {
 
             </div>
 
+            <div className="search-bar">
+
+                <input
+                    type="text"
+                    placeholder="Search student..."
+                    value={search}
+                    onChange={(e)=>setSearch(e.target.value)}
+                />
+
+            </div>
+
             <AddStudentForm onStudentAdded={fetchStudents} />
 
             <StudentTable
-                students={students}
+                students={filteredStudents}
                 onEdit={setSelectedStudent}
                 onDelete={deleteStudent}
             />
+
+            <div className="pagination">
+
+                <button
+                    disabled={page===0}
+                    onClick={()=>setPage(page-1)}
+                >
+                    Previous
+                </button>
+
+                <span>
+                    Page {page+1} of {totalPages || 1}
+                </span>
+
+                <button
+                    disabled={page+1>=totalPages}
+                    onClick={()=>setPage(page+1)}
+                >
+                    Next
+                </button>
+
+            </div>
 
             {selectedStudent && (
 
