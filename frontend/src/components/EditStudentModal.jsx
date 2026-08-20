@@ -1,74 +1,62 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function EditStudentModal({
+function EditStudentModal({ student, onClose, onUpdated }) {
 
-                              student,
-                              onClose,
-                              onUpdated
-
-                          }) {
-
-    const [form, setForm] = useState(student);
+    const [form, setForm] = useState(student || {});
 
     useEffect(() => {
-        setForm(student);
+        if (student) {
+            setForm(student);
+        }
     }, [student]);
 
     const handleChange = (e) => {
-
         setForm({
-
             ...form,
             [e.target.name]: e.target.value
-
         });
-
     };
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
 
         try {
-
             const token = localStorage.getItem("token");
 
             await axios.put(
-
                 `${import.meta.env.VITE_API_BASE_URL}/api/students/${student.id}`,
-
                 {
-                    ...form,
+                    name: form.name,
+                    email: form.email,
+                    phone: form.phone,
+                    department: form.department,
                     cgpa: Number(form.cgpa)
                 },
-
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }
-
             );
 
             onUpdated();
             onClose();
 
         } catch (error) {
-
             console.error(error);
-            alert("Update failed.");
 
+            alert(
+                error.response?.data?.message ||
+                JSON.stringify(error.response?.data)
+            );
         }
-
     };
 
     if (!student) return null;
 
     return (
-
         <div className="modal-overlay">
-
             <div className="modal">
 
                 <h2>Edit Student</h2>
@@ -77,22 +65,47 @@ function EditStudentModal({
 
                     <input
                         name="name"
-                        value={form.name}
+                        placeholder="Name"
+                        value={form.name || ""}
                         onChange={handleChange}
+                        required
+                    />
+
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        value={form.email || ""}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <input
+                        name="phone"
+                        placeholder="Phone"
+                        value={form.phone || ""}
+                        onChange={handleChange}
+                        required
                     />
 
                     <input
                         name="department"
-                        value={form.department}
+                        placeholder="Department"
+                        value={form.department || ""}
                         onChange={handleChange}
+                        required
                     />
 
                     <input
                         name="cgpa"
                         type="number"
                         step="0.01"
-                        value={form.cgpa}
+                        min="0"
+                        max="10"
+                        placeholder="CGPA"
+                        value={form.cgpa || ""}
                         onChange={handleChange}
+                        required
                     />
 
                     <div className="modal-buttons">
@@ -113,11 +126,8 @@ function EditStudentModal({
                 </form>
 
             </div>
-
         </div>
-
     );
-
 }
 
 export default EditStudentModal;
