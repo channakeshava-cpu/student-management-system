@@ -1,8 +1,4 @@
-function StudentTable({
-                          students,
-                          onEdit,
-                          onDelete
-                      }) {
+function StudentTable({ students, onEdit, onDelete }) {
 
     return (
 
@@ -11,6 +7,8 @@ function StudentTable({
             <thead>
             <tr>
                 <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Department</th>
                 <th>CGPA</th>
                 <th>Actions</th>
@@ -22,7 +20,7 @@ function StudentTable({
             {students.length === 0 ? (
 
                 <tr>
-                    <td colSpan="4" style={{ textAlign: "center" }}>
+                    <td colSpan="6" style={{ textAlign: "center" }}>
                         No students found
                     </td>
                 </tr>
@@ -34,6 +32,8 @@ function StudentTable({
                     <tr key={student.id}>
 
                         <td>{student.name}</td>
+                        <td>{student.email}</td>
+                        <td>{student.phone}</td>
                         <td>{student.department}</td>
                         <td>{student.cgpa}</td>
 

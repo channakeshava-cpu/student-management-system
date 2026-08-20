@@ -5,6 +5,8 @@ function AddStudentForm({ onStudentAdded }) {
 
     const [form, setForm] = useState({
         name: "",
+        email: "",
+        phone: "",
         department: "",
         cgpa: ""
     });
@@ -28,6 +30,8 @@ function AddStudentForm({ onStudentAdded }) {
                 `${import.meta.env.VITE_API_BASE_URL}/api/students`,
                 {
                     name: form.name,
+                    email: form.email,
+                    phone: form.phone,
                     department: form.department,
                     cgpa: Number(form.cgpa)
                 },
@@ -40,6 +44,8 @@ function AddStudentForm({ onStudentAdded }) {
 
             setForm({
                 name: "",
+                email: "",
+                phone: "",
                 department: "",
                 cgpa: ""
             });
@@ -49,7 +55,11 @@ function AddStudentForm({ onStudentAdded }) {
         } catch (error) {
 
             console.error(error);
-            alert("Failed to add student.");
+
+            alert(
+                error.response?.data?.message ||
+                JSON.stringify(error.response?.data)
+            );
 
         }
 
@@ -65,6 +75,23 @@ function AddStudentForm({ onStudentAdded }) {
                 name="name"
                 placeholder="Student Name"
                 value={form.name}
+                onChange={handleChange}
+                required
+            />
+
+            <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+                required
+            />
+
+            <input
+                name="phone"
+                placeholder="Phone Number"
+                value={form.phone}
                 onChange={handleChange}
                 required
             />
