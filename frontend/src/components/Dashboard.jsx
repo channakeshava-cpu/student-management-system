@@ -6,6 +6,7 @@ import AddStudentForm from "./AddStudentForm";
 import EditStudentModal from "./EditStudentModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import { toast } from "react-toastify";
+import ExportButtons from "./ExportButtons";
 
 function Dashboard() {
 
@@ -17,12 +18,16 @@ function Dashboard() {
     const [totalPages, setTotalPages] = useState(0);
     const [departmentFilter, setDepartmentFilter] = useState("ALL");
     const [sortOption, setSortOption] = useState("NAME_ASC");
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         fetchStudents();
     }, [page]);
 
     const fetchStudents = async () => {
+
+        setLoading(true);
 
         try {
 
@@ -31,8 +36,8 @@ function Dashboard() {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_BASE_URL}/api/students?page=${page}&size=5`,
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                    headers:{
+                        Authorization:`Bearer ${token}`
                     }
                 }
             );
@@ -40,14 +45,15 @@ function Dashboard() {
             setStudents(response.data.content);
             setTotalPages(response.data.totalPages);
 
-        } catch (error) {
+        } catch(error){
 
-            console.error("Failed to fetch students:", error);
+            console.error(error);
 
-            if (error.response?.status === 401) {
-                localStorage.removeItem("token");
-                window.location.reload();
-            }
+            toast.error("Failed to load students.");
+
+        } finally{
+
+            setLoading(false);
 
         }
 
@@ -119,6 +125,8 @@ function Dashboard() {
                 : student.department === departmentFilter
         )
 
+
+
         .sort((a, b) => {
 
             switch (sortOption) {
@@ -141,6 +149,7 @@ function Dashboard() {
             }
 
         });
+    const username=localStorage.getItem("username");
 
     return (
 
@@ -153,12 +162,30 @@ function Dashboard() {
                     <p>Manage your students efficiently</p>
                 </div>
 
-                <button
-                    className="logout-btn"
-                    onClick={handleLogout}
-                >
-                    Logout
-                </button>
+                <div className="profile-box">
+
+                    <div className="avatar">
+                        {username?.charAt(0).toUpperCase()}
+                    </div>
+
+                    <div>
+
+                        <h4>{username}</h4>
+
+                        <p>Administrator</p>
+
+                    </div>
+
+                    <button
+                        className="logout-btn"
+                        onClick={handleLogout}
+                    >
+
+                        Logout
+
+                    </button>
+
+                </div>
 
             </div>
 
@@ -227,14 +254,25 @@ function Dashboard() {
 
             <AddStudentForm onStudentAdded={fetchStudents} />
 
-            <StudentTable
-                students={filteredStudents}
-                onEdit={setSelectedStudent}
-                onDelete={(id)=>{
-                const student=students.find(s=>s.id===id);
-                setStudentToDelete(student);
-            }}
-            />
+            {loading ? (
+
+                <div className="loading-container">
+                    <div className="spinner"></div>
+                    <p>Loading students...</p>
+                </div>
+
+            ) : (
+
+                <StudentTable
+                    students={filteredStudents}
+                    onEdit={setSelectedStudent}
+                    onDelete={(id)=>{
+                        const student=students.find(s=>s.id===id);
+                        setStudentToDelete(student);
+                    }}
+                />
+
+            )}
 
             <div className="pagination">
 

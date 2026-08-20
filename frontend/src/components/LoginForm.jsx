@@ -17,6 +17,7 @@ function LoginForm({ setLoggedIn,setShowLogin}){
                 }
             );
             localStorage.setItem("token",response.data.token);
+            localStorage.setItem("username", username);
 
             console.log(response.data);
 

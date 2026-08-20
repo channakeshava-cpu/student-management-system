@@ -375,3 +375,80 @@ body{
   background:#475569;
 
 }
+
+/* ---------- LOADING ---------- */
+
+.loading-container{
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:50px;
+  gap:20px;
+
+}
+
+.spinner{
+
+  width:55px;
+  height:55px;
+  border:5px solid rgba(255,255,255,.2);
+  border-top:5px solid #3b82f6;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+  from{
+    transform:rotate(0deg);
+  }
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+.profile-box{
+
+  display:flex;
+  align-items:center;
+  gap:15px;
+
+}
+
+.avatar{
+
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#2563eb;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+  font-size:20px;
+
+}
+
+.profile-box p{
+
+  color:#94a3b8;
+  font-size:13px;
+
+}
+
+.excel-btn{
+
+  background:#16a34a;
+  color:white;
+  padding:12px 18px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  margin-bottom:20px;
+
+}
