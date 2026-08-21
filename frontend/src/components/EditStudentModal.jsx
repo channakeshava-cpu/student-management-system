@@ -1,55 +1,31 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { Save } from "lucide-react";
+import { DEPARTMENTS } from "../utils/studentUtils";
 
-function EditStudentModal({ student, onClose, onUpdated }) {
-
+function EditStudentModal({ student, onClose, onSave }) {
     const [form, setForm] = useState(student || {});
-
-    useEffect(() => {
-        if (student) {
-            setForm(student);
-        }
-    }, [student]);
+    const [submitting, setSubmitting] = useState(false);
 
     const handleChange = (e) => {
         setForm({
             ...form,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
 
         try {
-            const token = localStorage.getItem("token");
-
-            await axios.put(
-                `${import.meta.env.VITE_API_BASE_URL}/api/students/${student.id}`,
-                {
-                    name: form.name,
-                    email: form.email,
-                    phone: form.phone,
-                    department: form.department,
-                    cgpa: Number(form.cgpa)
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-
-            onUpdated();
+            await onSave(student.id, form);
             onClose();
-
         } catch (error) {
             console.error(error);
-
-            alert(
-                error.response?.data?.message ||
-                JSON.stringify(error.response?.data)
-            );
+            toast.error(error.response?.data?.message || "Failed to update student.");
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -58,11 +34,9 @@ function EditStudentModal({ student, onClose, onUpdated }) {
     return (
         <div className="modal-overlay">
             <div className="modal">
-
                 <h2>Edit Student</h2>
 
                 <form onSubmit={handleSubmit}>
-
                     <input
                         name="name"
                         placeholder="Name"
@@ -88,13 +62,19 @@ function EditStudentModal({ student, onClose, onUpdated }) {
                         required
                     />
 
-                    <input
+                    <select
                         name="department"
-                        placeholder="Department"
                         value={form.department || ""}
                         onChange={handleChange}
                         required
-                    />
+                    >
+                        <option value="">Select Department</option>
+                        {DEPARTMENTS.map((department) => (
+                            <option key={department} value={department}>
+                                {department}
+                            </option>
+                        ))}
+                    </select>
 
                     <input
                         name="cgpa"
@@ -109,22 +89,16 @@ function EditStudentModal({ student, onClose, onUpdated }) {
                     />
 
                     <div className="modal-buttons">
-
-                        <button type="submit">
-                            Save
+                        <button type="submit" disabled={submitting}>
+                            <Save size={18} />
+                            {submitting ? "Saving..." : "Save"}
                         </button>
 
-                        <button
-                            type="button"
-                            onClick={onClose}
-                        >
+                        <button type="button" onClick={onClose}>
                             Cancel
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
         </div>
     );

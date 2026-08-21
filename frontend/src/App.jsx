@@ -1,22 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import "./App.css";
 import Navbar from "./components/Navbar";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import Dashboard from "./components/Dashboard";
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(false);
     const [showLogin, setShowLogin] = useState(true);
+    const { isAuthenticated } = useAuth();
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        if (token) {
-            setLoggedIn(true);
-        }
-    }, []);
-
-    if (loggedIn) {
+    if (isAuthenticated) {
         return (
             <>
                 <Navbar />
@@ -31,7 +25,6 @@ function App() {
 
             {showLogin ? (
                 <LoginForm
-                    setLoggedIn={setLoggedIn}
                     setShowLogin={setShowLogin}
                 />
             ) : (

@@ -1,23 +1,17 @@
-function Navbar(){
+import { GraduationCap } from "lucide-react";
 
-    return(
+function Navbar() {
+    return (
+        <nav className="navbar">
+            <div className="brand-mark">
+                <GraduationCap size={22} />
+            </div>
 
-        <nav style={{
-            padding:"18px 40px",
-            background:"#111827",
-            borderBottom:"1px solid rgba(255,255,255,.08)"
-        }}>
-
-            <h2 style={{
-                color:"#3b82f6"
-            }}>
+            <h2>
                 Student Management System
             </h2>
-
         </nav>
-
     );
-
 }
 
 export default Navbar;

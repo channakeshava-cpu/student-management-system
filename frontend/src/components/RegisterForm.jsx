@@ -1,6 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
-
+import { toast } from "react-toastify";
+import { UserPlus } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
 
 function RegisterForm({ setShowLogin }) {
     const [form, setForm] = useState({
@@ -9,6 +10,8 @@ function RegisterForm({ setShowLogin }) {
         password: "",
         role: "ADMIN",
     });
+    const [submitting, setSubmitting] = useState(false);
+    const { register } = useAuth();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,60 +19,67 @@ function RegisterForm({ setShowLogin }) {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
 
         try {
-            await axios.post(
-                `${import.meta.env.VITE_API_BASE_URL}/api/auth/register`,
-                form
-            );
-
-            alert("Registration successful! Please sign in.");
+            await register(form);
             setShowLogin(true);
         } catch (error) {
             console.error(error);
-            alert("Registration failed.");
+            toast.error("Registration failed.");
+        } finally {
+            setSubmitting(false);
         }
     };
 
     return (
-        <form onSubmit={handleRegister} className="auth-form">
-            <h2>Create Account</h2>
+        <main className="auth-shell">
+            <form onSubmit={handleRegister} className="auth-form auth-panel">
+                <div className="auth-heading">
+                    <span className="eyebrow">New workspace</span>
+                    <h1>Create your account</h1>
+                    <p>Register an admin account using the existing backend contract.</p>
+                </div>
 
-            <input
-                name="username"
-                placeholder="Username"
-                value={form.username}
-                onChange={handleChange}
-            />
+                <input
+                    name="username"
+                    placeholder="Username"
+                    value={form.username}
+                    onChange={handleChange}
+                    required
+                />
 
-            <input
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={form.email}
-                onChange={handleChange}
-            />
+                <input
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                />
 
-            <input
-                name="password"
-                type="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={handleChange}
-            />
+                <input
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    value={form.password}
+                    onChange={handleChange}
+                    required
+                />
 
-            <button type="submit">Sign Up</button>
+                <button type="submit" disabled={submitting}>
+                    <UserPlus size={18} />
+                    {submitting ? "Creating..." : "Sign Up"}
+                </button>
 
-            <p>
-                Already have an account?{" "}
-                <span
-                    style={{ color: "#2563eb", cursor: "pointer" }}
-                    onClick={() => setShowLogin(true)}
-                >
-          Sign In
-        </span>
-            </p>
-        </form>
+                <p className="auth-switch">
+                    Already have an account?{" "}
+                    <button type="button" onClick={() => setShowLogin(true)}>
+                        Sign In
+                    </button>
+                </p>
+            </form>
+        </main>
     );
 }
 

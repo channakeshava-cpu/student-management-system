@@ -1,52 +1,28 @@
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
+import { FileDown, FileSpreadsheet } from "lucide-react";
+import { exportStudentsToExcel, exportStudentsToPDF } from "../utils/exportUtils";
 
-function ExportButtons({students}){
+function ExportButtons({ students }) {
+    return (
+        <div className="export-buttons">
+            <button
+                className="excel-btn"
+                onClick={() => exportStudentsToExcel(students)}
+                disabled={!students.length}
+            >
+                <FileSpreadsheet size={18} />
+                Export Excel
+            </button>
 
-    const exportExcel=()=>{
-
-        const worksheet=XLSX.utils.json_to_sheet(students);
-
-        const workbook=XLSX.utils.book_new();
-
-        XLSX.utils.book_append_sheet(
-            workbook,
-            worksheet,
-            "Students"
-        );
-
-        const excelBuffer=XLSX.write(
-            workbook,
-            {
-                bookType:"xlsx",
-                type:"array"
-            }
-        );
-
-        const file=new Blob(
-            [excelBuffer],
-            {
-                type:"application/octet-stream"
-            }
-        );
-
-        saveAs(file,"Students.xlsx");
-
-    };
-
-    return(
-
-        <button
-            className="excel-btn"
-            onClick={exportExcel}
-        >
-
-            Export Excel
-
-        </button>
-
+            <button
+                className="pdf-btn"
+                onClick={() => exportStudentsToPDF(students)}
+                disabled={!students.length}
+            >
+                <FileDown size={18} />
+                Export PDF
+            </button>
+        </div>
     );
-
 }
 
 export default ExportButtons;
