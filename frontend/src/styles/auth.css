@@ -1,0 +1,85 @@
+.auth-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+  background: var(--bg);
+}
+
+.auth-card {
+  display: grid;
+  gap: 16px;
+  width: min(460px, 100%);
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.auth-heading {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.auth-heading h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.auth-heading p,
+.auth-switch {
+  margin: 0;
+  color: var(--muted);
+}
+
+.auth-card label,
+.student-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.auth-card input,
+.auth-card select,
+.student-form input,
+.student-form select,
+.search-control,
+.select-control {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.auth-card input,
+.auth-card select,
+.student-form input,
+.student-form select {
+  padding: 0 12px;
+}
+
+.auth-card .primary-button {
+  width: 100%;
+}
+
+.auth-switch {
+  text-align: center;
+}
+
+.auth-switch button {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 800;
+}

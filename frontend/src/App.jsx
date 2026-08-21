@@ -1,9 +1,7 @@
 import { useState } from "react";
-import "./App.css";
-import Navbar from "./components/Navbar";
-import LoginForm from "./components/LoginForm";
-import RegisterForm from "./components/RegisterForm";
-import Dashboard from "./components/Dashboard";
+import LoginForm from "./components/auth/LoginForm";
+import RegisterForm from "./components/auth/RegisterForm";
+import Dashboard from "./components/dashboard/Dashboard";
 import { useAuth } from "./hooks/useAuth";
 
 function App() {
@@ -11,18 +9,11 @@ function App() {
     const { isAuthenticated } = useAuth();
 
     if (isAuthenticated) {
-        return (
-            <>
-                <Navbar />
-                <Dashboard />
-            </>
-        );
+        return <Dashboard />;
     }
 
     return (
         <>
-            <Navbar />
-
             {showLogin ? (
                 <LoginForm
                     setShowLogin={setShowLogin}

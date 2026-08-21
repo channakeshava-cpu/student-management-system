@@ -1,25 +1,25 @@
 import { FileDown, FileSpreadsheet } from "lucide-react";
-import { exportStudentsToExcel, exportStudentsToPDF } from "../utils/exportUtils";
+import { exportStudentsToExcel, exportStudentsToPDF } from "../../utils/exportUtils";
 
 function ExportButtons({ students }) {
     return (
         <div className="export-buttons">
             <button
-                className="excel-btn"
+                className="secondary-button"
                 onClick={() => exportStudentsToExcel(students)}
                 disabled={!students.length}
             >
                 <FileSpreadsheet size={18} />
-                Export Excel
+                Excel
             </button>
 
             <button
-                className="pdf-btn"
+                className="secondary-button"
                 onClick={() => exportStudentsToPDF(students)}
                 disabled={!students.length}
             >
                 <FileDown size={18} />
-                Export PDF
+                PDF
             </button>
         </div>
     );

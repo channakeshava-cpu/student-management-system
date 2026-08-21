@@ -1,16 +1,7 @@
-export const DEPARTMENTS = ["CSE", "ECE", "AIML", "IT", "MECH"];
-
-export const SORT_OPTIONS = [
-    { value: "NAME_ASC", label: "Name A-Z" },
-    { value: "NAME_DESC", label: "Name Z-A" },
-    { value: "CGPA_DESC", label: "CGPA High-Low" },
-    { value: "DEPARTMENT", label: "Department" },
-];
-
 export const normalizeStudentPayload = (form) => ({
-    name: form.name,
-    email: form.email,
-    phone: form.phone,
+    name: form.name.trim(),
+    email: form.email.trim(),
+    phone: form.phone.trim(),
     department: form.department,
     cgpa: Number(form.cgpa),
 });

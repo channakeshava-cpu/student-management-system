@@ -1,0 +1,75 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.58);
+}
+
+.modal,
+.delete-modal {
+  width: min(520px, 100%);
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  animation: modal-in 160ms ease-out;
+}
+
+.modal-heading {
+  margin-bottom: 16px;
+}
+
+.modal-heading h2,
+.delete-modal h2 {
+  margin: 0;
+  color: var(--text);
+}
+
+.modal-heading p,
+.delete-modal p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.modal-actions {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.delete-modal {
+  text-align: center;
+}
+
+.delete-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: var(--danger);
+}
+
+body.dark .delete-icon {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

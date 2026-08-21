@@ -20,6 +20,7 @@ api.interceptors.response.use(
         if (error.response?.status === 401) {
             localStorage.removeItem("token");
             localStorage.removeItem("username");
+            localStorage.removeItem("role");
             window.dispatchEvent(new Event("auth:unauthorized"));
         }
 

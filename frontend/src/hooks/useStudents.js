@@ -6,8 +6,7 @@ import {
     getStudentStats,
     normalizeStudentPayload,
 } from "../utils/studentUtils";
-
-const PAGE_SIZE = 5;
+import { PAGE_SIZE } from "../utils/constants";
 
 export function useStudents() {
     const [students, setStudents] = useState([]);

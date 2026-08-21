@@ -1,0 +1,99 @@
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.student-table {
+  width: 100%;
+  min-width: 840px;
+  border-collapse: collapse;
+}
+
+.student-table th,
+.student-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.student-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-muted);
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.student-table tr.striped {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.student-table tbody tr:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.department-pill {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+body.dark .department-pill {
+  background: #164e63;
+  color: #bae6fd;
+}
+
+.empty-state {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 34px 18px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty-state h3 {
+  margin: 0;
+  color: var(--text);
+}
+
+.empty-state p {
+  margin: 0;
+}
+
+.skeleton-table {
+  display: grid;
+  gap: 10px;
+}
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.5fr 1fr 0.8fr;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.skeleton-row span {
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--surface-muted), var(--border), var(--surface-muted));
+  background-size: 200% 100%;
+  animation: skeleton 1.2s ease-in-out infinite;
+}
+
+@keyframes skeleton {
+  to {
+    background-position: -200% 0;
+  }
+}
