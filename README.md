@@ -342,25 +342,24 @@ student-management-system/
 
 ## Login
 
-![Login](docs/screenshots/login.png)
-
+![Login](https://raw.githubusercontent.com/channakeshava-cpu/student-management-system/main/docs/screenshots/login.png)
 ---
 
 ## Admin Dashboard
 
-![Admin Dashboard](docs/screenshots/admin-dashboard.png)
+![Admin Dashboard](https://raw.githubusercontent.com/channakeshava-cpu/student-management-system/main/docs/screenshots/admin-dashboard.png)
 
 ---
 
 ## Edit Student
 
-![Edit Student](docs/screenshots/edit-student.png)
+![Edit Student](https://raw.githubusercontent.com/channakeshava-cpu/student-management-system/main/docs/screenshots/edit-student.png)
 
 ---
 
 ## Swagger API
 
-![Swagger API](docs/screenshots/swagger.png)
+![Swagger API](https://raw.githubusercontent.com/channakeshava-cpu/student-management-system/main/docs/screenshots/swagger.png)
 
 ⚙️ Local Setup
 Prerequisites
