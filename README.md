@@ -338,14 +338,29 @@ student-management-system/
 │
 ├── README.md
 └── .gitignore
-🖥️ Screenshots
-Login
+# 🖥️ Screenshots
 
-Admin Dashboard
+## Login
 
-Edit Student
+![Login](docs/screenshots/login.png)
 
-Swagger API
+---
+
+## Admin Dashboard
+
+![Admin Dashboard](docs/screenshots/admin-dashboard.png)
+
+---
+
+## Edit Student
+
+![Edit Student](docs/screenshots/edit-student.png)
+
+---
+
+## Swagger API
+
+![Swagger API](docs/screenshots/swagger.png)
 
 ⚙️ Local Setup
 Prerequisites
