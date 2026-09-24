@@ -239,6 +239,8 @@ Spring Security
  │
  ▼
 Protected REST API
+
+```
 👥 Role Permissions
 Feature	USER	ADMIN
 Register	✅	✅
@@ -256,6 +258,8 @@ Export Data	❌	✅
 
 The backend exposes REST endpoints for student management.
 
+```
+
 Student Endpoints
 Method	Endpoint	Description
 GET	/api/students	Get students
@@ -266,6 +270,8 @@ PUT	/api/students/{id}	Update a student
 DELETE	/api/students/{id}	Delete a student
 
 Protected endpoints require JWT authentication.
+
+```
 
 📖 Swagger / OpenAPI
 
@@ -286,6 +292,8 @@ Student retrieval
 Student creation
 Student updates
 Student deletion
+
+```
 📁 Project Structure
 student-management-system/
 │
@@ -338,6 +346,13 @@ student-management-system/
 │
 ├── README.md
 └── .gitignore
+```gitignore
+# contents of gitignore
+...
+```
+
+
+
 # 🖥️ Screenshots
 
 ## Login
